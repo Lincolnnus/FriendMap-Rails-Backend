@@ -1,4 +1,6 @@
 class FriendsController < ApplicationController
+  require 'json'         
+  require 'net/http' 
   def index
     @friends = Friend.all
   end
@@ -47,6 +49,16 @@ class FriendsController < ApplicationController
   	render json:@friends
   end
 
+  def renren
+    @uid = params[:uid]
+    @userId = User.find(@uid)
+    @pageSize = params[:pageSize]
+    @pageNumber = params[:pageNumber]
+    geturi = URI.parse(URI.encode("https://api.renren.com/v2/friend/list?access_token="+@userId[:token]+"&userId="+@userId[:rrid][3..-1]+"&pageNumber="+@pageNumber+"&pageSize="+@pageSize))      
+  	@response = JSON Net::HTTP.get(geturi)
+  	@friends = @response
+  	render json: @friends
+  end
   def details
   	@uid = params[:uid]
   	@friends = Friend.find(:all, :conditions =>["uid1 = ?",@uid])

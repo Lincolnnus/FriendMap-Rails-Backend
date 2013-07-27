@@ -46,6 +46,11 @@ class RenrenController < ApplicationController
 	 
 	 end         
 	 
+	 def inviteRenren
+	 end
+
+	 def inviteWeibo
+	 end
 	 
 	 
 	 def user         
@@ -54,7 +59,7 @@ class RenrenController < ApplicationController
 		@rruser = @response['response']
 		@user = User.find_by_rrid  'rr_'+@rruser['id'].to_s
 		if(!@user)
-			@user = User.new({:name => @rruser['name'], :rrid => 'rr_'+@rruser['id'].to_s,:thumbnail =>@rruser['avatar'][1]['url']})
+			@user = User.new({:name => @rruser['name'], :rrid => 'rr_'+@rruser['id'].to_s,:thumbnail =>@rruser['avatar'][1]['url'],:token =>session[:renren_access_token]})
 		    session[:thumbnail] =@user['thumbnail']
 		    session[:name] = @user['name']
 		    session[:rrid] = @user['rrid']
@@ -64,6 +69,7 @@ class RenrenController < ApplicationController
 		    	render json: @user.errors, status: :unprocessable_entity
 		    end
 		else
+			@user.token = session[:token]
 			session[:uid] = @user['id']
 			session[:thumbnail] =@user['thumbnail']
 			session[:name] = @user['name']

@@ -14,7 +14,7 @@ Friendoc::Application.routes.draw do
   get '/upload', to: "photos#new"
 
 
-  post '/api/signin.json',to:"users#signin"
+  post '/api/rrlogin.json',to:"users#rrlogin"
   get '/api/photos/:uid.json', to:"photos#my"
   get '/api/photos/:uid/city/:city.json', to:"photos#city"
   get '/api/photos/:uid/friends.json', to:"photos#friends"
@@ -23,6 +23,7 @@ Friendoc::Application.routes.draw do
   get '/api/invitors/:uid.json', to:"requests#invitor"
   get '/api/invitees/:uid.json', to:"requests#invitee"
   get '/api/accept/:uid/with/:fid.json', to:"requests#accept"
+  get '/api/renrenfriends/:uid/:pageSize/:pageNumber.json', to:"friends#renren"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
