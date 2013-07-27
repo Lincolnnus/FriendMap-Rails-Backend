@@ -1,0 +1,10 @@
+<h1>Welcome To 好友足迹</h1>
+<% if session[:uid] %>
+	<img src="<%= session[:thumbnail] %>" title="<%= session[:name] %>">
+	<a href="/logout">登出</a>
+<% else %>
+<a href="/renren/login">人人登陆</a>
+<form>
+	
+</form>
+<% end %>
