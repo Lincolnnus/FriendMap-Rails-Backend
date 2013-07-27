@@ -12,7 +12,22 @@ class PhotosController < ApplicationController
    		format.json{render json:@photo}
    	end
   end
-  
+  def edit
+    @photo = Photo.find(params[:id])
+  end
+  def update
+    @photo = Photo.find(params[:id])
+
+    respond_to do |format|
+      if @photo.update_attributes(params[:photo])
+        format.html { redirect_to @photo, notice: 'Photo was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @photo.errors, status: :unprocessable_entity }
+      end
+    end
+  end
   def new
     @photo = Photo.new
   end
@@ -52,7 +67,13 @@ class PhotosController < ApplicationController
   end
 
   def friends
-  	@user_id = params[:user_id]
+  	@uid= params[:uid]
+  	@friends = Friend.find(:all, :conditions =>["uid1=?",@uid])
+  	@photos=[]
+  	@friends.each do |friend|
+  		@photo = Photo.find(:all,:conditions=>["user_id=?",friend[:uid2]])
+  		@photos.concat(@photo)
+  	end
   	render json: @photos
   end
 

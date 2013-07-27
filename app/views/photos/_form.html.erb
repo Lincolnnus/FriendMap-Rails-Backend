@@ -1,0 +1,9 @@
+<%= form_for @photo, :html => { :multipart => true } do |form| %>
+  <%= form.file_field :img %>
+  <p>latitude:<%= form.text_field :lat %></p>
+  <p>longitude:<%= form.text_field :lng %></p>
+  <p>city:<%= form.text_field :city %></p>
+   <p>
+    <%= form.submit %>
+  </p>
+<% end %>

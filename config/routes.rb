@@ -3,18 +3,26 @@ Friendoc::Application.routes.draw do
 
   resources :users 
   resources :photos
+  resources :friends
+  resources :requests
 
   get '/renren/login' ,:controller=>"renren",:action=>"login"
   get '/renren/loginnext' ,:controller=>"renren",:action=>"loginnext"
   get '/renren/user' ,:controller=>"renren",:action=>"user"
-  get '/login', to:"users#login", as: 'user'
-  get '/logout', to: "users#logout", as: 'user'
-  get '/upload', to: "photos#new", as: 'photo'
+  get '/login', to:"users#login"
+  get '/logout', to: "users#logout"
+  get '/upload', to: "photos#new"
 
 
-  post '/api/signin.json',to:"users#signin", as:'user'
-  get '/api/photos/:uid.json', to:"photos#my", as:'photo'
-  get '/api/photos/:uid/city/:city.json', to:"photos#city", as:'photo'
+  post '/api/signin.json',to:"users#signin"
+  get '/api/photos/:uid.json', to:"photos#my"
+  get '/api/photos/:uid/city/:city.json', to:"photos#city"
+  get '/api/photos/:uid/friends.json', to:"photos#friends"
+  get '/api/friendIds/:uid.json', to:"friends#ids"
+  get '/api/friendDetails/:uid.json', to:"friends#details"
+  get '/api/invitors/:uid.json', to:"requests#invitor"
+  get '/api/invitees/:uid.json', to:"requests#invitee"
+  get '/api/accept/:uid/with/:fid.json', to:"requests#accept"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
