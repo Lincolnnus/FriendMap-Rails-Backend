@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130727123550) do
+ActiveRecord::Schema.define(:version => 20130727230218) do
 
   create_table "friends", :force => true do |t|
     t.integer  "uid1"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20130727123550) do
     t.integer  "img_file_size"
     t.datetime "img_updated_at"
     t.string   "city"
+    t.string   "province"
   end
 
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
