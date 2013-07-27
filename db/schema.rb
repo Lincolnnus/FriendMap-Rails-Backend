@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130727075352) do
+ActiveRecord::Schema.define(:version => 20130727123550) do
+
+  create_table "friends", :force => true do |t|
+    t.integer  "uid1"
+    t.integer  "uid2"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "friends", ["uid1", "uid2"], :name => "index_friends_on_uid1_and_uid2", :unique => true
 
   create_table "photos", :force => true do |t|
     t.string   "lat"
@@ -23,16 +32,28 @@ ActiveRecord::Schema.define(:version => 20130727075352) do
     t.string   "img_content_type"
     t.integer  "img_file_size"
     t.datetime "img_updated_at"
+    t.string   "city"
   end
 
   add_index "photos", ["user_id"], :name => "index_photos_on_user_id"
+
+  create_table "requests", :force => true do |t|
+    t.integer  "uid"
+    t.string   "fid"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "name"
     t.string   "thumbnail"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.string   "sid"
+    t.string   "rrid"
+    t.string   "wbid"
+    t.string   "sessionKey"
+    t.string   "token"
   end
 
 end

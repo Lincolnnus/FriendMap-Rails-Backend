@@ -34,14 +34,14 @@ class UsersController < ApplicationController
 	end
   end
 
-  def signin
-    @user = User.find(:first, :conditions => [ "sid = ?", params[:sid]])
+  def rrlogin
+    @user = User.find(:first, :conditions => [ "rrid = ?", params[:rrid]])
     if(!@user)
-    	if (params[:sid]&&params[:name]&&params[:thumbnail])
-			@user = User.new({:name => params['name'], :sid => params['sid'],:thumbnail =>params['thumbnail']})
+    	if (params[:rrid]&&params[:name]&&params[:thumbnail])
+			@user = User.new({:name => params['name'], :rrid => params['rrid'],:thumbnail =>params['thumbnail']})
 		    session[:thumbnail] =@user['thumbnail']
 		    session[:name] = @user['name']
-		    session[:sid] = @user['sid']
+		    session[:rrid] = @user['rrid']
 		    if @user.save
 		    	session[:uid] = @user['id']
 		    	respond_to do |format|
@@ -61,7 +61,7 @@ class UsersController < ApplicationController
 		session[:uid] = @user['id']
 		session[:thumbnail] =@user['thumbnail']
 		session[:name] = @user['name']
-		session[:sid] = @user['sid']
+		session[:rrid] = @user['rrid']
 		respond_to do |format|
         	format.html { redirect_to '/users/'+@user['id'].to_s, notice: 'User login successful.' }
 	    	format.json{render json: @user, status: :created, location: @user}
@@ -75,7 +75,7 @@ class UsersController < ApplicationController
 	session[:uid] = nil
 	session[:thumbnail] = nil
 	session[:name] = nil
-	session[:sid] = nil
+	session[:rrid] = nil
 	respond_to do |format|
 		format.html{ redirect_to '/'}
    		format.json{render json:{'response'=> 'success'}}

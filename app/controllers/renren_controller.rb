@@ -52,12 +52,12 @@ class RenrenController < ApplicationController
 		geturi=URI.parse(URI.encode("https://api.renren.com/v2/user/login/get?access_token=#{session[:renren_access_token]}"))       
 		@response = JSON Net::HTTP.get(geturi)
 		@rruser = @response['response']
-		@user = User.find_by_sid  'rr_'+@rruser['id'].to_s
+		@user = User.find_by_rrid  'rr_'+@rruser['id'].to_s
 		if(!@user)
-			@user = User.new({:name => @rruser['name'], :sid => 'rr_'+@rruser['id'].to_s,:thumbnail =>@rruser['avatar'][1]['url']})
+			@user = User.new({:name => @rruser['name'], :rrid => 'rr_'+@rruser['id'].to_s,:thumbnail =>@rruser['avatar'][1]['url']})
 		    session[:thumbnail] =@user['thumbnail']
 		    session[:name] = @user['name']
-		    session[:sid] = @user['sid']
+		    session[:rrid] = @user['rrid']
 		    if @user.save
 		    	redirect_to '/'
 		    else
@@ -67,7 +67,7 @@ class RenrenController < ApplicationController
 			session[:uid] = @user['id']
 			session[:thumbnail] =@user['thumbnail']
 			session[:name] = @user['name']
-			session[:sid] = @user['sid']
+			session[:rrid] = @user['rrid']
 		    redirect_to '/'
 		end
 	 end         

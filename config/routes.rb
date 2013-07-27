@@ -8,9 +8,13 @@ Friendoc::Application.routes.draw do
   get '/renren/loginnext' ,:controller=>"renren",:action=>"loginnext"
   get '/renren/user' ,:controller=>"renren",:action=>"user"
   get '/login', to:"users#login", as: 'user'
-  post '/signin',to:"users#signin", as:'user'
   get '/logout', to: "users#logout", as: 'user'
   get '/upload', to: "photos#new", as: 'photo'
+
+
+  post '/api/signin.json',to:"users#signin", as:'user'
+  get '/api/photos/:uid.json', to:"photos#my", as:'photo'
+  get '/api/photos/:uid/city/:city.json', to:"photos#city", as:'photo'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
