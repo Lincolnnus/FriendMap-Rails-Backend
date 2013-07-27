@@ -69,7 +69,6 @@ class RenrenController < ApplicationController
 		    	render json: @user.errors, status: :unprocessable_entity
 		    end
 		else
-			@user.token = session[:token]
 			session[:uid] = @user['id']
 			session[:thumbnail] =@user['thumbnail']
 			session[:name] = @user['name']

@@ -15,6 +15,7 @@ Friendoc::Application.routes.draw do
 
 
   post '/api/rrlogin.json',to:"users#rrlogin"
+  post '/api/photos', to:"photos#create"
   get '/api/photos/:uid.json', to:"photos#my"
   get '/api/photos/:uid/city/:city.json', to:"photos#city"
   get '/api/photos/:uid/friends.json', to:"photos#friends"

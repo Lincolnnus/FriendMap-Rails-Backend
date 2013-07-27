@@ -37,13 +37,9 @@ class UsersController < ApplicationController
   def rrlogin
     @user = User.find(:first, :conditions => [ "rrid = ?", params[:rrid]])
     if(!@user)
-    	if (params[:rrid]&&params[:name]&&params[:thumbnail])
-			@user = User.new({:name => params['name'], :rrid => params['rrid'],:thumbnail =>params['thumbnail']})
-		    session[:thumbnail] =@user['thumbnail']
-		    session[:name] = @user['name']
-		    session[:rrid] = @user['rrid']
+    	if (params[:rrid]&&params[:name]&&params[:thumbnail]&&params[:token])
+			@user = User.new({:name => params['name'], :rrid => params['rrid'],:thumbnail =>params['thumbnail'],:token =>params['token']})
 		    if @user.save
-		    	session[:uid] = @user['id']
 		    	respond_to do |format|
 		    		format.json{render json: @user, status: :created, location: @user}
 		   		end
@@ -58,15 +54,17 @@ class UsersController < ApplicationController
 			end
 		end
 	else
-		session[:uid] = @user['id']
-		session[:thumbnail] =@user['thumbnail']
-		session[:name] = @user['name']
-		session[:rrid] = @user['rrid']
-		respond_to do |format|
-        	format.html { redirect_to '/users/'+@user['id'].to_s, notice: 'User login successful.' }
-	    	format.json{render json: @user, status: :created, location: @user}
-	    end
-	end
+     @user[:token] = params[:token]
+     if @user.update_attributes(@user)
+		    respond_to do |format|
+          format.html { redirect_to '/users/'+@user['id'].to_s, notice: 'User login successful.' }
+  	    	format.json{render json: @user, status: :created, location: @user}
+        end
+     else
+        format.html { redirect_to '/users/'+@user['id'].to_s, notice: 'Cannot update token.' }
+        format.json{render json: @user.errors, status: :unprocessable_entity}
+     end
+     end
   end
   def login
 
@@ -77,7 +75,7 @@ class UsersController < ApplicationController
 	session[:name] = nil
 	session[:rrid] = nil
 	respond_to do |format|
-		format.html{ redirect_to '/'}
+		  format.html{ redirect_to '/'}
    		format.json{render json:{'response'=> 'success'}}
    	end
   end

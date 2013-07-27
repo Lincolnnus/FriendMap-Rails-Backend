@@ -34,9 +34,11 @@ class PhotosController < ApplicationController
  
   def create
     @photo = Photo.new(params[:photo])
-    @photo.user_id = session[:uid]
+    @photo.user_id = params[:uid]
     # normal save
     if @photo.save
+      @photo[:medium] = @photo.img.url(:medium)
+      @photo[:thumbnail] =@photo.img.url(:thumbnail)
     	respond_to do |format|
 		   format.html{redirect_to('/photos/'+@photo.id.to_s, :notice => 'Photo was successfully created.')}
 		   format.json{render json:{'response'=>@photo}}
