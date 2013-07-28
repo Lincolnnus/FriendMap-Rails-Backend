@@ -23,6 +23,19 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
+  def update
+    @user = User.find(params[:id])
+
+    respond_to do |format|
+      if @user.update_attributes(params[:user])
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
+  end
 
   def create
     @user = User.new(params[:user])
@@ -37,34 +50,25 @@ class UsersController < ApplicationController
   def rrlogin
     @user = User.find(:first, :conditions => [ "rrid = ?", params[:rrid]])
     if(!@user)
-    	if (params[:rrid]&&params[:name]&&params[:thumbnail]&&params[:token])
-			@user = User.new({:name => params['name'], :rrid => params['rrid'],:thumbnail =>params['thumbnail'],:token =>params['token']})
-		    if @user.save
-		    	respond_to do |format|
-		    		format.json{render json: @user, status: :created, location: @user}
-		   		end
-		    else
-		    	respond_to do |format|
-		    		format.json{render json: @user.errors, status: :unprocessable_entity}
-		    	end
-		    end
-		else
-			respond_to do |format|
-				format.json{render json: {'response'=>'fail'}}
-			end
-		end
-	else
-     @user[:token] = params[:token]
-     if @user.update_attributes(@user)
-		    respond_to do |format|
-          format.html { redirect_to '/users/'+@user['id'].to_s, notice: 'User login successful.' }
-  	    	format.json{render json: @user, status: :created, location: @user}
-        end
-     else
-        format.html { redirect_to '/users/'+@user['id'].to_s, notice: 'Cannot update token.' }
-        format.json{render json: @user.errors, status: :unprocessable_entity}
-     end
-     end
+      	if (params[:rrid]&&params[:name]&&params[:thumbnail]&&params[:token])
+  			@user = User.new({:name => params['name'], :rrid => params['rrid'],:thumbnail =>params['thumbnail'],:token =>params['token']})
+          if @user.save
+  		    	respond_to do |format|
+  		    		format.json{render json: @user}
+  		   		end
+  		    else
+  		    	respond_to do |format|
+  		    		format.json{render json: @user.errors}
+  		    	end
+  		    end
+  		else
+  			respond_to do |format|
+  				format.json{render json: {'response'=>'fail'}}
+  			end
+  		end
+  	else
+  	    render json: @user
+    end
   end
   def login
 

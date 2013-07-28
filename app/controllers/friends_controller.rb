@@ -61,11 +61,15 @@ class FriendsController < ApplicationController
   end
   def details
   	@uid = params[:uid]
-  	@friends = Friend.find(:all, :conditions =>["uid1 = ?",@uid])
-  	@friends.each do |friend|
-  		friend = User.find(friend[:uid2])
-  	end
-  	render json:@friends
+    @friends = Friend.find(:all, :conditions =>["uid1 = ?",@uid])
+    @myfriends = []
+    @friends.each do |friend|
+            @photos = Photo.where(:user_id => friend[:uid2]).last(3)
+            friend = User.find(friend[:uid2])
+            friend[:photos] = @photos
+            @myfriends << friend
+    end
+    render json:@myfriends
   end
 
   def destroy

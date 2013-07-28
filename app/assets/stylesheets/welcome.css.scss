@@ -1,3 +1,69 @@
 // Place all the styles related to the welcome controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+#mainContainer{
+    position:fixed;
+    left:0;
+    top:0;
+	width:100%;
+	height:100%;
+	background-color:rgba(100,100,100,0.5)
+}
+body{
+	height:1200px;
+}
+.socialContainer{
+	z-index:300
+}
+.upload{
+ 	z-index:300
+}
+.header{
+	position:relative;
+	top:0px;
+}
+.bgContainer{
+	position:fixed;
+	top:0;
+	left:50%;
+	height:120%;
+	z-index:0;
+	margin-left:-320px;
+}
+#logout{
+	z-index:200
+}
+#mapContainer{
+	position:fixed;
+	top:0;
+	left:50%;
+	height:120%;
+	width:100%;
+	z-index:100;
+	overflow:scroll;
+	margin-left:-320px;
+}
+.province{
+	position:fixed;
+	top:0;
+	left:50%;
+	height:120%;
+	z-index:100;
+	margin-left:-320px;
+}
+.rrlogin{
+	position:absolute;
+	top:60%;
+	z-index:100;
+	left:30%;
+}
+.socialContainer{
+	position:absolute;
+	top:50%;
+	left:50%;
+}
+.upload{
+	position:fixed;
+	top:10%;
+	left:60%;
+}

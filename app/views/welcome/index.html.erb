@@ -1,7 +1,39 @@
-<h1>Welcome To 好友足迹</h1>
-<% if session[:uid] %>
-	<img src="<%= session[:thumbnail] %>" title="<%= session[:name] %>">
-	<a href="/logout">登出</a>
-<% else %>
-<a href="/renren/login">人人登陆</a>
-<% end %>
+<div id="mainContainer" class="mainContainer">
+	<% if !session[:uid] %>	
+	    <div class="bgContainer"><img src="/assets/maps/bg_main.png"></div>
+	    <div id="mapContainer"></div>
+	    <div class="upload"><a href="/upload"><img src="/assets/maps/camera.png"></a></div>
+		<div class="socialContainer">
+		<img src="<%= session[:thumbnail] %>" title="<%= session[:name] %>"><br>
+		<a id="logout" href="/logout">登出</a>
+		</div>
+		<script type="text/javascript" src="/assets/jquery.min.js"></script>
+		<script type="text/javascript">
+			$( document ).ready(function() {
+			    addMaps(1);
+			});
+			function addMaps(uid){
+				$.ajax({
+				  url: "/api/photos/"+uid+".json",
+				  type: "GET",
+				  dataType: "json",
+				  success: function(data) {
+				  	for(var i=0;i<data.length;i++)
+				    {
+				    	console.log(data[i]);
+					   $("#mapContainer").append('<div class="province"><img src="/assets/maps/blue/'+data[i].province+'blue.png"></div>'
+					   	);
+					}
+				  },
+				  
+				  error: function() {
+				    alert("ERROR!!!");
+				  }
+				});
+			}
+		</script>
+	<% else %>
+		<div class="bgContainer"><img src="/assets/intro/bg_intro.png"></div>
+		<div class="rrlogin"><a href="/renren/login"><img src="/assets/intro/renren.png"></a></div>
+	<% end %>
+</div>
